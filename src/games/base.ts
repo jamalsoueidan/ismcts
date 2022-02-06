@@ -1,6 +1,8 @@
 export default interface BaseState<C, B> {
   get numberOfPlayers():number;
   get playerToMove():number;
+	get eachPlayer():Array<number>;
+	get playerHands():any; //KeyIndex<Array<Card>>
 
 	/** Return the player to the left of the specified player, skipping players who have been knocked out */
 	getNextPlayer(p):number;

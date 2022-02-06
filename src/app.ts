@@ -1,47 +1,50 @@
 import _ from "lodash";
 import Card from "./games/knockout/card";
 import GameState from "./games/knockout/knockout";
-import Move from "./games/move";
 import Node from "./node";
 
 
-const state = new GameState(4)
-const copy = state.clone();
-let m:Move;
-let tricksInRound = 0;
+const playGame = (totalPlayers, agents) => {
+  const state = new GameState(totalPlayers)
+  console.log("PlayersHands", state.playerHands)
 
-console.log("playersHands", state.playerHands)
+  while (!_.isEmpty(state.getMoves())) {
+    let m = Node.ISMCTS(state, agents[state.playerToMove])
+    console.log("Player", state.playerToMove, "played move", m)
+    state.doMove(m as Card)
 
-while (!_.isEmpty(state.getMoves())) {
-  if (state.playerToMove == 1) {
-    m = Node.ISMCTS(state, 1000)
-  }
-  else {
-    m = Node.ISMCTS(state, 100)
-  }
-  console.log('Best Move', m, "For player", state.playerToMove)
-  state.doMove(m as Card)
+    if(state.isRoundOver) {
+      //state.toString()
+      //state.nextRound();
+    }
 
-  if(state.isRoundOver) {
-    //state.toString()
-    //state.nextRound();
+    if(state.isTrickOver) {
+      console.log('-')
+    }
   }
 
-  if(state.isTrickOver) {
-    console.log('-------------------------------')
+  let someoneWon = false
+  state.eachPlayer.forEach((playerNum) => {
+    if(state.getResult(playerNum) > 0) {
+
+      console.log("Player", playerNum, "wins with", state.tricksTaken[playerNum], "tricks!")
+      someoneWon = true
+    }
+  })
+
+  if(!someoneWon) {
+    console.log("Nobody wins!")
   }
 }
 
-let someoneWon = false
-state.eachPlayer.forEach((playerNum) => {
-  if(state.getResult(playerNum) > 0) {
-
-    console.log("Player", playerNum, "wins", state.tricksTaken[playerNum], "tricks!")
-    someoneWon = true
-  }
-})
-
-if(!someoneWon) {
-  console.log("Nobody wins!")
+const agents = {
+  "1": 1000,
+  "2": 100,
+  "3": 100,
+  "4": 100,
 }
+
+playGame(4, agents)
+
+
 
