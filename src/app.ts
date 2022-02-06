@@ -19,11 +19,10 @@ while (!_.isEmpty(state.getMoves())) {
   else {
     m = Node.ISMCTS(state, 100)
   }
-  console.log('Best move', m, "For player", state.playerToMove, state.trumpSuit)
+  console.log('Best Move', m, "For player", state.playerToMove)
   state.doMove(m as Card)
 
   if(state.isRoundOver) {
-    console.log(state.tricksTaken)
     //state.toString()
     //state.nextRound();
   }
@@ -36,7 +35,8 @@ while (!_.isEmpty(state.getMoves())) {
 let someoneWon = false
 state.eachPlayer.forEach((playerNum) => {
   if(state.getResult(playerNum) > 0) {
-    console.log("Player " + playerNum + " wins!")
+
+    console.log("Player", playerNum, "wins", state.tricksTaken[playerNum], "tricks!")
     someoneWon = true
   }
 })
