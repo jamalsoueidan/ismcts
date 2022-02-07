@@ -3,6 +3,7 @@ import Card from "./games/knockout/card";
 import GameState from "./games/knockout/knockout";
 import Node from "./node";
 
+const runTotalGames = 10;
 
 const playGame = (totalPlayers, agents) => {
   const state = new GameState(totalPlayers)
@@ -35,6 +36,8 @@ const playGame = (totalPlayers, agents) => {
   if(!someoneWon) {
     console.log("Nobody wins!")
   }
+
+  return state.tricksTaken
 }
 
 const agents = {
@@ -44,7 +47,35 @@ const agents = {
   "4": 100,
 }
 
-playGame(4, agents)
+let total = 0;
+
+let results:any = {
+  "1": 0,
+  "2": 0,
+  "3": 0,
+  "4": 0
+}
+
+let eachRound:any = []
+
+for(var i=0;i<runTotalGames;i++) {
+  eachRound.push(playGame(4, agents));
+}
+
+eachRound.forEach(r => {
+  _.range(1, 5).forEach(p => {
+    if(r[p]) {
+      results[p] += r[p]
+      total += r[p]
+    }
+  })
+})
+
+console.log(eachRound)
+
+_.range(1, 5).forEach(p => {
+  console.log("Player", p, (results[p] / total * 100).toFixed(2) + "%")
+})
 
 
 

@@ -14,7 +14,7 @@ interface KeyIndex<T> {
 export default class Knockout implements BaseState<Card, Knockout> {
   private _numberOfPlayers = 2;
   private _playerToMove = 1;
-  private _tricksInRound = 13;
+  private _tricksInRound = 7;
   private _playerHands:KeyIndex<Array<Card>> = {}; //Whats in each player hand
   private _discards = [] // Stores the cards that have been played already in this round
   private _currentTrick:Array<[number, Card]>  = [] //Current play on table

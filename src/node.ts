@@ -67,7 +67,7 @@ export default class Node {
   }
 
 
-  UCBSelectChild(legalMoves:Move[], exploration = 1.41) {
+  UCBSelectChild(legalMoves:Move[], exploration = 0.7) {
     /* Use the UCB1 formula to select a child node, filtered by the given list of legal moves.
       exploration is a constant balancing between exploitation and exploration, with default value 1.41 (approximately sqrt(2) / 2)
     */
