@@ -1,8 +1,9 @@
-export default interface BaseState<C, B> {
+import _ from "lodash";
+
+export interface BaseState<C, B> {
   get numberOfPlayers():number;
   get playerToMove():number;
 	get eachPlayer():Array<number>;
-	get playerHands():any; //KeyIndex<Array<Card>>
 
 	/** Return the player to the left of the specified player, skipping players who have been knocked out */
 	getNextPlayer(p):number;
@@ -21,4 +22,31 @@ export default interface BaseState<C, B> {
 
 	/** Get the game result from the viewpoint of player. */
 	getResult(player:number):number;
+}
+
+export class Base {
+  protected _numberOfPlayers = 2;
+  protected _playerToMove = 1;
+
+  get numberOfPlayers() {
+    return this._numberOfPlayers;
+  }
+
+  get playerToMove() {
+    return this._playerToMove;
+  }
+
+  protected set playerToMove(value) {
+    this._playerToMove = value;
+  }
+
+  get eachPlayer() {
+    return _.range(1, (this._numberOfPlayers+1))
+  }
+
+	getNextPlayer(p:number):number {
+    return (p % this._numberOfPlayers) + 1
+  }
+
+
 }

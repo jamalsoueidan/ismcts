@@ -1,6 +1,7 @@
 import _ from "lodash";
-import BaseState from "./games/base";
+import {BaseState} from "./games/base";
 import Move from "./games/move";
+import Tictactoe from "./games/tictactoe/tictactoe";
 
 export default class Node {
   private _move:Move;
@@ -165,14 +166,13 @@ export default class Node {
       // Backpropagate
       while(node) { // backpropagate from the expanded node and work back to the root node
         node.update(state)
-
         node = node.parentNode
       }
     })
 
     // Output some information about the tree - can be omitted
     if(verbose) {
-      console.log(rootnode.treeToString(0))
+     console.log(rootnode.treeToString(0))
     }
     return _.maxBy(rootnode.childNodes, c => c.visits).move // return the move that was most visited
   }

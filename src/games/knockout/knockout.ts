@@ -1,6 +1,6 @@
 import Card, { RANKS, Suit, SUITS } from "./card";
 import _ from 'lodash'
-import BaseState from "../base";
+import {BaseState} from "../base";
 
 interface KeyIndex<T> {
   [key: string]: T
